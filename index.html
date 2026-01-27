@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tecton Forge AI</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* ----- Global Styles ----- */
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fa;
+            color: #333;
+        }
+        a { text-decoration: none; }
+        button { cursor: pointer; }
+
+        /* ----- Header / Hero ----- */
+        header {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+            padding: 80px 20px 60px 20px;
+            text-align: center;
+        }
+        header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+        }
+        header p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+        header button {
+            background-color: #fff;
+            color: #4facfe;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        /* ----- Form Section ----- */
+        .form-section {
+            max-width: 900px;
+            margin: -40px auto 60px auto;
+            background: white;
+            padding: 30px 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        .form-section h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+        }
+        label {
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        select {
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+        }
+        .generate-btn {
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+            background: #4facfe;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* ----- Results Section ----- */
+        .results {
+            max-width: 1000px;
+            margin: 0 auto 60px auto;
+            display: none; /* Hidden until generate */
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            padding: 15px;
+            flex: 1 1 300px;
+            text-align: center;
+        }
+        .card img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+        .card button {
+            margin-top: 10px;
+            background: #00c851;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        /* ----- Vastu Score ----- */
+        .vastu {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        /* ----- Footer ----- */
+        footer {
+            text-align: center;
+            padding: 30px 10px;
+            background: #f0f0f0;
+        }
+
+        /* ----- Responsive ----- */
+        @media(max-width: 768px) {
+            header h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ----- Header / Hero ----- -->
+<header>
+    <h1>Visualize Your Dream Home</h1>
+    <p>Generate floor plans, interiors, exteriors, and Vastu scores instantly.</p>
+    <button onclick="document.getElementById('form-section').scrollIntoView({behavior: 'smooth'})">Generate Your Design</button>
+</header>
+
+<!-- ----- Input Form ----- -->
+<section class="form-section" id="form-section">
+    <h2>Enter Your Plot Details</h2>
+    <div class="form-group">
+        <label for="plotSize">Plot Size</label>
+        <select id="plotSize">
+            <option value="30x40">30x40 ft</option>
+            <option value="40x60">40x60 ft</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="style">Style</label>
+        <select id="style">
+            <option value="Modern">Modern</option>
+            <option value="Minimal">Minimal</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="facing">Facing Direction</label>
+        <select id="facing">
+            <option value="East">East</option>
+            <option value="North">North</option>
+            <option value="South">South</option>
+            <option value="West">West</option>
+        </select>
+    </div>
+    <button class="generate-btn" onclick="generateDesign()">Generate Design</button>
+</section>
+
+<!-- ----- Results Section ----- -->
+<section class="results" id="results-section">
+    <div class="card">
+        <h3>Floor Plan</h3>
+        <img id="floorPlanImg" src="" alt="Floor Plan">
+        <button onclick="downloadImage('floorPlanImg', 'floor_plan.png')">Download</button>
+    </div>
+    <div class="card">
+        <h3>Interior Design</h3>
+        <img id="interiorImg" src="" alt="Interior">
+        <button onclick="downloadImage('interiorImg', 'interior.png')">Download</button>
+    </div>
+    <div class="card">
+        <h3>Exterior Elevation</h3>
+        <img id="exteriorImg" src="" alt="Exterior">
+        <button onclick="downloadImage('exteriorImg', 'exterior.png')">Download</button>
+    </div>
+    <div class="vastu" id="vastuScore">Vastu Score: 85/100</div>
+</section>
+
+<footer>
+    &copy; 2026 AI Home Design. All rights reserved.
+</footer>
+
+<!-- ----- JS ----- -->
+<script>
+function generateDesign() {
+    const plotSize = document.getElementById('plotSize').value;
+    const style = document.getElementById('style').value;
+    const facing = document.getElementById('facing').value;
+
+    // TODO: Connect this to your backend API
+    // For now, using placeholder images
+    document.getElementById('floorPlanImg').src = "https://via.placeholder.com/400x300.png?text=Floor+Plan";
+    document.getElementById('interiorImg').src = "https://via.placeholder.com/400x300.png?text=Interior";
+    document.getElementById('exteriorImg').src = "https://via.placeholder.com/400x300.png?text=Exterior";
+    document.getElementById('vastuScore').innerText = "Vastu Score: " + (facing === "East" || facing === "North" ? "85/100" : "70/100");
+
+    document.getElementById('results-section').style.display = "flex";
+}
+
+// Download function
+function downloadImage(imgId, filename) {
+    const img = document.getElementById(imgId);
+    const link = document.createElement('a');
+    link.href = img.src;
+    link.download = filename;
+    link.click();
+}
+</script>
+
+</body>
+</html>
