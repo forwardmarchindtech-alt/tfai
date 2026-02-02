@@ -1,228 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tecton Forge AI</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        /* ----- Global Styles ----- */
-        body {
-            margin: 0;
-            font-family: 'Inter', sans-serif;
-            background: #f5f7fa;
-            color: #333;
-        }
-        a { text-decoration: none; }
-        button { cursor: pointer; }
+  <meta charset="UTF-8" />
+  <title>TectonForge AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        /* ----- Header / Hero ----- */
-        header {
-            background: linear-gradient(135deg, #4facfe, #00f2fe);
-            color: white;
-            padding: 80px 20px 60px 20px;
-            text-align: center;
-        }
-        header h1 {
-            font-size: 2.8rem;
-            margin-bottom: 20px;
-        }
-        header p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-        }
-        header button {
-            background-color: #fff;
-            color: #4facfe;
-            padding: 12px 30px;
-            border: none;
-            border-radius: 6px;
-            font-size: 1rem;
-            font-weight: 600;
-        }
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(120deg, #0f2027, #203a43, #2c5364);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
 
-        /* ----- Form Section ----- */
-        .form-section {
-            max-width: 900px;
-            margin: -40px auto 60px auto;
-            background: white;
-            padding: 30px 20px;
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-        }
-        .form-section h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 15px;
-        }
-        label {
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-        select {
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            font-size: 1rem;
-        }
-        .generate-btn {
-            display: block;
-            width: 100%;
-            margin-top: 20px;
-            background: #4facfe;
-            color: white;
-            padding: 12px;
-            border: none;
-            border-radius: 6px;
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
+    .container {
+      background: rgba(0, 0, 0, 0.55);
+      padding: 30px;
+      border-radius: 14px;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    }
 
-        /* ----- Results Section ----- */
-        .results {
-            max-width: 1000px;
-            margin: 0 auto 60px auto;
-            display: none; /* Hidden until generate */
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-        }
-        .card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            padding: 15px;
-            flex: 1 1 300px;
-            text-align: center;
-        }
-        .card img {
-            max-width: 100%;
-            border-radius: 8px;
-        }
-        .card button {
-            margin-top: 10px;
-            background: #00c851;
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 6px;
-            font-weight: 600;
-        }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
 
-        /* ----- Vastu Score ----- */
-        .vastu {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
+    label {
+      font-weight: bold;
+      margin-top: 15px;
+      display: block;
+    }
 
-        /* ----- Footer ----- */
-        footer {
-            text-align: center;
-            padding: 30px 10px;
-            background: #f0f0f0;
-        }
+    textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      border-radius: 8px;
+      border: none;
+      resize: none;
+      font-size: 14px;
+    }
 
-        /* ----- Responsive ----- */
-        @media(max-width: 768px) {
-            header h1 { font-size: 2rem; }
-        }
-    </style>
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 20px;
+      border-radius: 10px;
+      border: none;
+      background: #00c6ff;
+      color: black;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #00a6d6;
+    }
+
+    .result {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    img {
+      width: 100%;
+      border-radius: 10px;
+      margin-top: 15px;
+    }
+
+    .download-btn {
+      display: none;
+      margin-top: 10px;
+      background: #4caf50;
+      color: white;
+    }
+  </style>
 </head>
+
 <body>
+  <div class="container">
+    <h1>TectonForge AI</h1>
 
-<!-- ----- Header / Hero ----- -->
-<header>
-    <h1>Visualize Your Dream Home</h1>
-    <p>Generate floor plans, interiors, exteriors, and Vastu scores instantly.</p>
-    <button onclick="document.getElementById('form-section').scrollIntoView({behavior: 'smooth'})">Generate Your Design</button>
-</header>
+    <label for="plotPrompt">Describe your land / plot</label>
+    <textarea
+      id="plotPrompt"
+      rows="3"
+      placeholder="Example: 30x40 east-facing plot, road on north side, residential area"
+    ></textarea>
 
-<!-- ----- Input Form ----- -->
-<section class="form-section" id="form-section">
-    <h2>Enter Your Plot Details</h2>
-    <div class="form-group">
-        <label for="plotSize">Plot Size</label>
-        <select id="plotSize">
-            <option value="30x40">30x40 ft</option>
-            <option value="40x60">40x60 ft</option>
-        </select>
+    <button onclick="generateDesign()">Generate Design</button>
+
+    <div class="result">
+      <img id="resultImage" />
+      <a id="downloadBtn" class="download-btn" download>Download Image</a>
     </div>
-    <div class="form-group">
-        <label for="style">Style</label>
-        <select id="style">
-            <option value="Modern">Modern</option>
-            <option value="Minimal">Minimal</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="facing">Facing Direction</label>
-        <select id="facing">
-            <option value="East">East</option>
-            <option value="North">North</option>
-            <option value="South">South</option>
-            <option value="West">West</option>
-        </select>
-    </div>
-    <button class="generate-btn" onclick="generateDesign()">Generate Design</button>
-</section>
+  </div>
 
-<!-- ----- Results Section ----- -->
-<section class="results" id="results-section">
-    <div class="card">
-        <h3>Floor Plan</h3>
-        <img id="floorPlanImg" src="" alt="Floor Plan">
-        <button onclick="downloadImage('floorPlanImg', 'floor_plan.png')">Download</button>
-    </div>
-    <div class="card">
-        <h3>Interior Design</h3>
-        <img id="interiorImg" src="" alt="Interior">
-        <button onclick="downloadImage('interiorImg', 'interior.png')">Download</button>
-    </div>
-    <div class="card">
-        <h3>Exterior Elevation</h3>
-        <img id="exteriorImg" src="" alt="Exterior">
-        <button onclick="downloadImage('exteriorImg', 'exterior.png')">Download</button>
-    </div>
-    <div class="vastu" id="vastuScore">Vastu Score: 85/100</div>
-</section>
+  <script>
+    async function generateDesign() {
+      const plotPrompt = document.getElementById("plotPrompt").value.trim();
 
-<footer>
-    &copy; 2026 AI Home Design. All rights reserved.
-</footer>
+      if (!plotPrompt) {
+        alert("Please describe your land");
+        return;
+      }
 
-<!-- ----- JS ----- -->
-<script>
-function generateDesign() {
-    const plotSize = document.getElementById('plotSize').value;
-    const style = document.getElementById('style').value;
-    const facing = document.getElementById('facing').value;
+      const response = await fetch("https://tectonforgeai.onrender.com/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plot_description: plotPrompt })
+      });
 
-    // TODO: Connect this to your backend API
-    // For now, using placeholder images
-    document.getElementById('floorPlanImg').src = "https://via.placeholder.com/400x300.png?text=Floor+Plan";
-    document.getElementById('interiorImg').src = "https://via.placeholder.com/400x300.png?text=Interior";
-    document.getElementById('exteriorImg').src = "https://via.placeholder.com/400x300.png?text=Exterior";
-    document.getElementById('vastuScore').innerText = "Vastu Score: " + (facing === "East" || facing === "North" ? "85/100" : "70/100");
+      if (!response.ok) {
+        alert("Backend error. Check server.");
+        return;
+      }
 
-    document.getElementById('results-section').style.display = "flex";
-}
+      const data = await response.json();
 
-// Download function
-function downloadImage(imgId, filename) {
-    const img = document.getElementById(imgId);
-    const link = document.createElement('a');
-    link.href = img.src;
-    link.download = filename;
-    link.click();
-}
-</script>
+      const img = document.getElementById("resultImage");
+      const downloadBtn = document.getElementById("downloadBtn");
 
+      img.src = data.image_url;
+      downloadBtn.href = data.image_url;
+      downloadBtn.style.display = "block";
+    }
+  </script>
 </body>
 </html>
