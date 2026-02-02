@@ -18,11 +18,11 @@
     }
 
     .container {
-      background: rgba(0, 0, 0, 0.55);
+      background: rgba(0, 0, 0, 0.6);
       padding: 30px;
       border-radius: 14px;
       width: 100%;
-      max-width: 500px;
+      max-width: 520px;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
     }
 
@@ -69,7 +69,17 @@
       text-align: center;
     }
 
-    img {
+    #loader {
+      display: none;
+      margin-top: 15px;
+    }
+
+    #loader img {
+      width: 60px;
+    }
+
+    img#resultImage {
+      display: none;
       width: 100%;
       border-radius: 10px;
       margin-top: 15px;
@@ -78,8 +88,12 @@
     .download-btn {
       display: none;
       margin-top: 10px;
+      padding: 10px;
       background: #4caf50;
       color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -98,40 +112,9 @@
     <button onclick="generateDesign()">Generate Design</button>
 
     <div class="result">
-      <img id="resultImage" />
-      <a id="downloadBtn" class="download-btn" download>Download Image</a>
-    </div>
-  </div>
+      <div id="loader">
+        <img src="https://i.gifer.com/ZZ5H.gif" alt="Loading" />
+        <p>Generating design…</p>
+      </div>
 
-  <script>
-    async function generateDesign() {
-      const plotPrompt = document.getElementById("plotPrompt").value.trim();
-
-      if (!plotPrompt) {
-        alert("Please describe your land");
-        return;
-      }
-
-      const response = await fetch("https://tectonforgeai.onrender.com/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plot_description: plotPrompt })
-      });
-
-      if (!response.ok) {
-        alert("Backend error. Check server.");
-        return;
-      }
-
-      const data = await response.json();
-
-      const img = document.getElementById("resultImage");
-      const downloadBtn = document.getElementById("downloadBtn");
-
-      img.src = data.image_url;
-      downloadBtn.href = data.image_url;
-      downloadBtn.style.display = "block";
-    }
-  </script>
-</body>
-</html>
+      <i
