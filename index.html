@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>AI Design MVP</title>
+<title>AI Design Generator</title>
 
 <style>
 body {
@@ -12,18 +12,19 @@ body {
   text-align:center;
 }
 button {
-  padding:10px 20px;
+  padding:12px 24px;
   margin:10px;
+  font-size:16px;
   cursor:pointer;
 }
 img {
-  max-width:400px;
   margin-top:20px;
+  max-width:400px;
   border-radius:10px;
 }
 </style>
-
 </head>
+
 <body>
 
 <h1>AI Design Generator</h1>
@@ -32,29 +33,26 @@ img {
 <button onclick="downloadImage()">Download Image</button>
 
 <br>
-<img id="output">
+<img id="result">
 
 <script>
-const API = "https://tectonforgeai.onrender.com/";
+const API = "https://YOUR-RENDER-URL.onrender.com";
 
-async function generate() {
-  const res = await fetch(API + "/generate", {
-    method: "POST"
-  });
-  const data = await res.json();
-  document.getElementById("output").src = data.image_url;
+function generate(){
+  document.getElementById("result").src = API + "/image?" + Date.now();
 }
 
-function downloadImage() {
-  const img = document.getElementById("output").src;
-  if (!img) return;
+function downloadImage(){
+  const img = document.getElementById("result").src;
+  if(!img) return;
   const a = document.createElement("a");
   a.href = img;
   a.download = "design.png";
+  document.body.appendChild(a);
   a.click();
+  document.body.removeChild(a);
 }
 </script>
 
 </body>
 </html>
-
